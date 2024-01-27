@@ -1,0 +1,20 @@
+---
+name: ginco
+analytics: false
+color: true
+compile-concurrency: 3
+concurrency: 50
+format: human
+spinner: true
+stream: false
+#modulepath:
+#- modules
+modules:
+- git: git@github.com:gibbs/gin-module.git
+  ref: master
+- dylanratcliffe/bolt_vagrant
+- puppetlabs/puppet_agent
+plans:
+- gin::*
+tasks:
+- gin::*

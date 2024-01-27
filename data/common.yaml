@@ -1,0 +1,2 @@
+gin::components:
+  timezone: true

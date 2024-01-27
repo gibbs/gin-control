@@ -1,0 +1,14 @@
+plugins:
+  - vagrant-hostmanager
+
+machine:
+  ubuntu22:
+    hostname:  ubuntu22.gin.test
+    ip:        192.168.56.11
+    gui:       false
+    cpus:      2
+    memory:    2048
+    http_port: 8881
+    username:  'vagrant'
+    os:
+      box: ubuntu/jammy64

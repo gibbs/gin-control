@@ -1,0 +1,14 @@
+version: 2
+
+config:
+  ssh:
+    #user: vagrant
+    #password: vagrant
+#    host-key-check: false
+    tmpdir: /var/tmp/
+
+targets:
+  - _plugin: task
+    task: bolt_vagrant::targets
+    parameters:
+      vagrant_dir: .vagrant
