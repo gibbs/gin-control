@@ -1,0 +1,58 @@
+# Vagrant specific
+gin::sudo:
+  purge: false
+  config_file_replace: true
+
+gin::ssh:
+  server_options:
+    AllowGroups: 'sudo vagrant'
+
+gin::pam:
+  manage_nsswitch: false
+  allowed_users:
+    root:
+      - 'ALL'
+    vagrant:
+      - 'ALL'
+  pam_auth_lines:
+    - 'auth [success=1 default=ignore]  pam_unix.so nullok_secure'
+    - 'auth requisite pam_deny.so'
+    - 'auth required  pam_permit.so'
+    - 'auth optional  pam_cap.so'
+    - 'auth required  pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900'
+  pam_password_lines:
+    - 'password [success=1 default=ignore]  pam_unix.so obscure sha512'
+    - 'password requisite pam_deny.so'
+    - 'password requisite pam_pwquality.so retry=3'
+    - 'password required pam_permit.so'
+    - 'password required pam_pwhistory.so remember=5'
+  limits_fragments:
+    core:
+      list:
+        - '* hard core 0'
+        - '* soft core 0'
+
+gin::users:
+  vagrant:
+    password: vagrant
+    ensure: present
+    locked: false
+    purge_sshkeys: false
+    purge_user_home: false
+    groups:
+      - sudo
+
+  ubuntu:
+    ensure: present
+    locked: false
+    purge_sshkeys: false
+    purge_user_home: false
+    groups:
+      - sudo
+
+  systemd-coredump:
+    ensure: absent
+
+gin::sysctl:
+  kernel.modules_disabled:
+    value: 0

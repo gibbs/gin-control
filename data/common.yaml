@@ -1,2 +1,37 @@
 gin::components:
+  acct: true
+  acls: true
+  alternatives: false
+  apt: false
+  archives: true
+  at: true
+  auditd: true
+  cron: true
+  epel: false
+  files: true
+  grub: true
+  hosts: true
+  kmod: true
+  #locales: true
+  login_defs: true
+  logrotate: true
+  lvm: true
+  motd: true
+  mount: true
+  nftables: true
+  nsswitch: true
+  packages: true
+  pam: true
+  repositories: true
+  rhsm: false
+  services: true
+  snmp: true
+  ssh: true
+  sudo: true
+  systemd: true
+  sysctl: true
+  sysstat: true
   timezone: true
+  useradd: true
+  users: true
+  yum: false

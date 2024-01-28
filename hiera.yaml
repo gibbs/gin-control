@@ -12,6 +12,9 @@ hierarchy:
       - 'nodes/%{domain}/%{hostname}.yaml'
       - 'nodes/%{domain}.yaml'
 
+  - name: Vagrant Testing
+    path: vagrant.yaml
+
   - name: Common Data
     globs:
       - 'common/%{facts.os.name}-%{facts.os.release.major}/*.yaml'
