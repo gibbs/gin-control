@@ -12,6 +12,8 @@ stream: false
 modules:
 - git: git@github.com:gibbs/gin-module.git
   ref: master
+- git: git@github.com:gibbs/juniper-module.git
+  ref: master
 - dylanratcliffe/bolt_vagrant
 - puppetlabs/puppet_agent
 plans:

@@ -6,11 +6,14 @@ defaults:
   data_hash: yaml_data
 
 hierarchy:
-  - name: Node Data
-    globs:
-      - 'nodes/%{domain}/%{hostname}/*.{yaml,eyaml}'
-      - 'nodes/%{domain}/%{hostname}.yaml'
-      - 'nodes/%{domain}.yaml'
+  # - name: Node Data
+  #   globs:
+  #     - 'nodes/%{domain}/%{hostname}/*.{yaml,eyaml}'
+  #     - 'nodes/%{domain}/%{hostname}.yaml'
+  #     - 'nodes/%{domain}.yaml'
+
+  - name: Test
+    path: test.yaml
 
   - name: Vagrant Testing
     path: vagrant.yaml

@@ -6,4 +6,5 @@ lookup_options:
       strategy: deep
 
 classes:
+  - juniper
   - gin

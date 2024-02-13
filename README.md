@@ -13,5 +13,5 @@ vagrant up ubuntu22
 ```
 
 ```bash
-bolt plan run -v gin::apply --run-as=root -t ubuntu22
+bolt plan run -v gin::apply --run-as=root -t ubuntu22 --stream
 ```
