@@ -12,3 +12,5 @@ targets:
     task: bolt_vagrant::targets
     parameters:
       vagrant_dir: .vagrant
+  - name: rpi
+    uri: rpi.danielgibbs.net

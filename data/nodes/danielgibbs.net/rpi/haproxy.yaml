@@ -1,11 +1,5 @@
-juniper::components:
-  letsencrypt: false
-  haproxy: true
-
-# @todo - add fallback SSL certificate. See layer module
-
 juniper::haproxy_backends:
-  w1_certbot:
+  http_certbot:
     mode: http
     options:
       server:
@@ -25,7 +19,7 @@ juniper::haproxy_frontends:
       http-response:
         - set-header Strict-Transport-Security max-age=63072000
       acl:
-        - is_root hdr(host) -i gin.test
+        #- is_root hdr(host) -i rpi.danielgibbs.net
         - is_acme_challenge path_beg /.well-known/acme-challenge/
       use_backend:
-        - w1_certbot if is_acme_challenge
+        - http_certbot if is_acme_challenge

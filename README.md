@@ -15,3 +15,9 @@ vagrant up ubuntu22
 ```bash
 bolt plan run -v gin::apply --run-as=root -t ubuntu22 --stream
 ```
+
+## Prerequisites
+
+- Ensure the hostname (FQDN) is set.
+- Install augeus (on debian libaugeas-dev and sudo gem install ruby-augeas)
+- `sudo /opt/puppetlabs/puppet/bin/gem install ruby-augeas`

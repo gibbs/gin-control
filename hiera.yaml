@@ -8,15 +8,25 @@ defaults:
 hierarchy:
   # - name: Node Data
   #   globs:
-  #     - 'nodes/%{domain}/%{hostname}/*.{yaml,eyaml}'
-  #     - 'nodes/%{domain}/%{hostname}.yaml'
-  #     - 'nodes/%{domain}.yaml'
+  #     - 'nodes/%{facts.networking.domain}/%{facts.networking.hostname}/*.{yaml,eyaml}'
+  #     - 'nodes/%{facts.networking.domain}/%{facts.networking.hostname}.yaml'
+  #- name: Node Directory
+  #  glob: "nodes/%{facts.networking.domain}/%{facts.networking.hostname}/*.{yaml,eyaml}"
 
-  - name: Test
-    path: test.yaml
+  #- name: Node Hostname
+  #  glob: "nodes/%{facts.networking.domain}/%{facts.networking.hostname}.yaml"
 
-  - name: Vagrant Testing
-    path: vagrant.yaml
+  - name: Node FQDN
+    path: "nodes/%{facts.networking.fqdn}.yaml"
+
+  - name: Node Domain
+    path: "nodes/%{facts.networking.domain}.yaml"
+
+  #- name: Test
+  #  path: test.yaml
+
+  #- name: Vagrant Testing
+  #  path: vagrant.yaml
 
   - name: Common Data
     globs:

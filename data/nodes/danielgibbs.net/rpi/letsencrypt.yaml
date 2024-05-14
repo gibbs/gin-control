@@ -1,0 +1,19 @@
+juniper::letsencrypt:
+  cron_scripts_path: /var/tmp/
+  package_ensure: installed
+  renew_cron_ensure: present
+  renew_cron_hour: '6'
+  renew_cron_monthday: '*'
+  email: contact@dangibbs.co.uk
+  config:
+    email: contact@dangibbs.co.uk
+
+juniper::letsencrypt_certificates:
+  rpi.danielgibbs.net:
+    manage_cron: true
+    cron_success_command: systemctl restart haproxy
+    deploy_hook_commands: /usr/bin/cat /etc/letsencrypt/live/rpi.danielgibbs.net/fullchain.pem /etc/letsencrypt/live/rpi.danielgibbs.net/privkey.pem | /usr/bin/tee /etc/ssl/haproxy/rpi.danielgibbs.net.pem
+    additional_args:
+      - --http-01-port 10081
+      - --preferred-challenges http-01
+      - --http-01-address 127.0.0.1

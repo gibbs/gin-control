@@ -1,0 +1,97 @@
+gin::components:
+  acls: false
+  auditd: false
+  grub: false
+  kmod: false
+  lvm: false
+  nftables: false
+  pam: false
+  sysctl: false
+  sysstat: false
+  users: true
+
+juniper::components:
+  docker: true
+  letsencrypt: true
+  haproxy: true
+
+gin::ssh:
+  server_options:
+    AllowGroups: 'sudo gibbs'
+
+gin::sudo:
+  purge: false
+  config_file_replace: true
+
+gin::systemd:
+  manage_resolved: false # DNS is used by pi-hole
+
+gin::sudoers:
+  gibbs:
+    priority: 10
+    content: "gibbs ALL=(ALL) NOPASSWD: ALL"
+
+gin::users:
+  gibbs:
+    password: $6$mIM/cswwE2UBm8ke$z.HauYpoi0haI4X4U1Z06fVzmqM9/lhFUXTeEAL2drDEXaDu2n90mk5XrlVbjTENDLEe.OIIhP0/LXoyrWowl.
+    ensure: present
+    locked: false
+    purge_sshkeys: false
+    purge_user_home: false
+    groups:
+      - sudo
+
+gin::sysctl:
+  kernel.modules_disabled:
+    value: 0
+
+juniper::letsencrypt:
+  cron_scripts_path: /var/tmp/
+  package_ensure: installed
+  renew_cron_ensure: present
+  renew_cron_hour: '6'
+  renew_cron_monthday: '*'
+  email: contact@dangibbs.co.uk
+  config:
+    email: contact@dangibbs.co.uk
+
+juniper::letsencrypt_certificates:
+  rpi.danielgibbs.net:
+    manage_cron: true
+    cron_success_command: systemctl restart haproxy
+    deploy_hook_commands: /usr/bin/cat /etc/letsencrypt/live/rpi.danielgibbs.net/fullchain.pem /etc/letsencrypt/live/rpi.danielgibbs.net/privkey.pem | /usr/bin/tee /etc/ssl/haproxy/rpi.danielgibbs.net.pem
+    additional_args:
+      - --http-01-port 10081
+      - --preferred-challenges http-01
+      - --http-01-address 127.0.0.1
+
+juniper::haproxy_backends:
+  http_certbot:
+    mode: http
+    options:
+      server:
+        - "local 127.0.0.1:10081"
+
+juniper::haproxy_frontends:
+  default:
+    bind:
+      '0.0.0.0:80': []
+      '0.0.0.0:443': [ssl, crt, /etc/ssl/haproxy/]
+    mode: http
+    options:
+      http-request:
+        - redirect scheme https code 301 if !{ ssl_fc } !is_acme_challenge
+        - set-header X-Forwarded-Proto "https"
+        - set-header X-Forwarded-Port "443"
+      http-response:
+        - set-header Strict-Transport-Security max-age=63072000
+      acl:
+        #- is_root hdr(host) -i rpi.danielgibbs.net
+        - is_acme_challenge path_beg /.well-known/acme-challenge/
+      use_backend:
+        - http_certbot if is_acme_challenge
+
+juniper::docker_images:
+  ghcr.io/puppeteer/puppeteer:
+    ensure: present
+    image_tag: '22.8.1'
